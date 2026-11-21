@@ -1,16 +1,15 @@
 # 🎀 Ateliê das Bonecas — Aplicativo PWA Interativo
 
-Um aplicativo infantil e educativo em formato **PWA (Progressive Web App)** onde crianças e adultos podem escolher entre cinco bonecas artesanais — **Olívia**, **Larissa**, **Mônica**, **John** e **Alyne** — e montá-las manualmente arrastando e encaixando cada pecinha sobre o molde, ao som de uma música alegre de caixinha de música, com direito a **confetes e comemoração de "VIVA!!"** ao concluir cada uma.
+Um aplicativo infantil e educativo em formato **PWA (Progressive Web App)** onde crianças e adultos podem escolher entre quatro bonecas artesanais — **Olívia**, **Larissa**, **Mônica** e **Alyne** — e montá-las manualmente arrastando e encaixando cada pecinha sobre o molde, ao som de uma música alegre de caixinha de música, com direito a **confetes e comemoração de "VIVA!!"** ao concluir cada uma.
 
 ---
 
 ## ✨ Funcionalidades
 
-- **Menu lateral com 5 bonecas artesanais:**
+- **Menu lateral com 4 bonecas artesanais:**
   - **Olívia** (12 peças: perninhas, tênis, calçola com renda, bracinhos, blusinha escolar, jardineira xadrez, rosto, cachos castanhos e laço)
   - **Larissa** (10 peças: perninhas, sapatilhas, bracinhos, vestido rosa & floral com flamingos, cachos pretinhos, rostinho e lacinhos rosa)
   - **Mônica** (10 peças: perninhas, sapatilhas rosa, bracinhos, vestido rosa princesa com renda, cachos dourados, rostinho com sardas e laço & tiara rosa)
-  - **John** (10 peças: perninhas, sapatinhos marrons, bracinhos, camiseta de bolinhas, jardineira de bichinhos, cachinhos caramelo e rostinho)
   - **Alyne** (10 peças: perninhas, sapatilhas, bracinhos, vestido verde-menta com renda, cachos clarinhos, rostinho e lacinho verde-menta)
 - **Montagem manual por arrastar e soltar (Mouse e Toque):** funciona perfeitamente no computador, tablet e celular.
 - **Encaixe magnético inteligente:** ao aproximar a peça do lugar correto na silhueta, um guia luminoso acende e encaixa a peça com precisão, acompanhado de sininho e estrelinhas.
