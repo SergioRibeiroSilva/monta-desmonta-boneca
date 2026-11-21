@@ -1,7 +1,7 @@
 {
-  "name": "Ateliê das Bonecas — Olívia, Larissa, Mônica, Abner e Alyne",
+  "name": "Ateliê das Bonecas — Olívia, Larissa, Mônica, John e Alyne",
   "short_name": "Ateliê Bonecas",
-  "description": "Jogo infantil interativo para montar as 5 bonecas artesanais (Olívia, Larissa, Mônica, Abner e Alyne) arrastando cada pecinha com música alegre e confetes!",
+  "description": "Jogo infantil interativo para montar as 5 bonecas artesanais (Olívia, Larissa, Mônica, John e Alyne) arrastando cada pecinha com música alegre e confetes!",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
