@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Ateliê das Bonecas — Monte a Olívia, Mônica e Larissa</title>
+  <title>Ateliê das Bonecas — Olívia, Larissa, Mônica, Abner e Alyne</title>
 
   <!-- Configurações PWA (Instalável no Android, iOS e Desktop) -->
   <link rel="manifest" href="manifest.webmanifest" />
@@ -837,72 +837,587 @@
        1. DADOS DAS 3 BONECAS (EMBUTIDOS PARA FUNCIONAR OFFLINE E VIA FILE://)
        ========================================================================= */
     const DOLLS = [
+  {
+    "id": "olivia",
+    "name": "Olívia",
+    "subtitle": "Jardineira xadrez & cachos",
+    "gender": "f",
+    "thumb": "assets/olivia/thumb.png",
+    "silhouette": "assets/olivia/silhouette.png",
+    "width": 600,
+    "height": 600,
+    "pieces": [
       {
-        id: 'olivia',
-        name: 'Olívia',
-        subtitle: 'Jardineira xadrez & cachos',
-        thumb: 'assets/olivia/thumb.png',
-        silhouette: 'assets/olivia/silhouette.png',
-        width: 480,
-        height: 853,
-        pieces: [
-          { id: '01_perna_esq', name: 'Perna Esquerda', file: 'assets/olivia/01_perna_esq.png', zIndex: 2, x: 37.917, y: 64.478, w: 8.542, h: 14.185 },
-          { id: '02_perna_dir', name: 'Perna Direita', file: 'assets/olivia/02_perna_dir.png', zIndex: 2, x: 49.375, y: 65.416, w: 8.333, h: 13.247 },
-          { id: '03_tenis_esq', name: 'Tênis Esquerdo', file: 'assets/olivia/03_tenis_esq.png', zIndex: 4, x: 36.042, y: 76.905, w: 13.333, h: 15.123 },
-          { id: '04_tenis_dir', name: 'Tênis Direito', file: 'assets/olivia/04_tenis_dir.png', zIndex: 4, x: 48.333, y: 77.257, w: 16.042, h: 14.42 },
-          { id: '05_calcola', name: 'Calçola com Renda', file: 'assets/olivia/05_calcola.png', zIndex: 5, x: 29.583, y: 59.32, w: 39.167, h: 7.268 },
-          { id: '06_braco_esq', name: 'Braço Esquerdo', file: 'assets/olivia/06_braco_esq.png', zIndex: 6, x: 20.208, y: 43.611, w: 17.917, h: 15.358 },
-          { id: '07_braco_dir', name: 'Braço Direito', file: 'assets/olivia/07_braco_dir.png', zIndex: 6, x: 63.75, y: 44.549, w: 12.917, h: 16.413 },
-          { id: '08_blusinha', name: 'Blusinha Escolar', file: 'assets/olivia/08_blusinha.png', zIndex: 7, x: 31.875, y: 36.577, w: 36.875, h: 10.199 },
-          { id: '09_jardineira', name: 'Jardineira Xadrez', file: 'assets/olivia/09_jardineira.png', zIndex: 8, x: 23.542, y: 36.811, w: 48.542, h: 26.026 },
-          { id: '10_rosto', name: 'Rostinho', file: 'assets/olivia/10_rosto.png', zIndex: 9, x: 37.292, y: 19.109, w: 29.583, h: 18.992 },
-          { id: '11_cabelo', name: 'Cachos Castanhos', file: 'assets/olivia/11_cabelo.png', zIndex: 10, x: 26.875, y: 11.958, w: 55.417, h: 30.715 },
-          { id: '12_laco', name: 'Laço Xadrez', file: 'assets/olivia/12_laco.png', zIndex: 12, x: 35.833, y: 8.441, w: 27.083, h: 10.434 }
-        ]
+        "id": "01_perna_esq",
+        "name": "Perna Esquerda",
+        "file": "assets/olivia/01_perna_esq.png",
+        "zIndex": 2,
+        "x": 42.667,
+        "y": 70.167,
+        "w": 5.333,
+        "h": 14.667
       },
       {
-        id: 'monica',
-        name: 'Mônica',
-        subtitle: 'Cachos dourados & sardinhas',
-        thumb: 'assets/monica/thumb.png',
-        silhouette: 'assets/monica/silhouette.png',
-        width: 620,
-        height: 634,
-        pieces: [
-          { id: '01_perna_esq', name: 'Perna Esquerda', file: 'assets/monica/01_perna_esq.png', zIndex: 2, x: 36.613, y: 77.129, w: 12.903, h: 12.618 },
-          { id: '02_perna_dir', name: 'Perna Direita', file: 'assets/monica/02_perna_dir.png', zIndex: 2, x: 50.484, y: 77.129, w: 12.903, h: 12.618 },
-          { id: '03_sapato_esq', name: 'Sapatinho Esquerdo', file: 'assets/monica/03_sapato_esq.png', zIndex: 4, x: 33.065, y: 85.016, w: 17.419, h: 14.196 },
-          { id: '04_sapato_dir', name: 'Sapatinho Direito', file: 'assets/monica/04_sapato_dir.png', zIndex: 4, x: 50.161, y: 85.016, w: 14.839, h: 14.511 },
-          { id: '05_braco_esq', name: 'Braço Esquerdo', file: 'assets/monica/05_braco_esq.png', zIndex: 5, x: 24.194, y: 43.849, w: 14.677, h: 17.508 },
-          { id: '06_braco_dir', name: 'Braço Direito', file: 'assets/monica/06_braco_dir.png', zIndex: 5, x: 60.323, y: 43.533, w: 13.871, h: 18.927 },
-          { id: '07_vestido', name: 'Vestido Floral', file: 'assets/monica/07_vestido.png', zIndex: 7, x: 17.903, y: 33.596, w: 63.71, h: 46.688 },
-          { id: '09_cabelo', name: 'Cachos Dourados', file: 'assets/monica/09_cabelo.png', zIndex: 8, x: 23.065, y: 0.158, w: 53.065, h: 38.959 },
-          { id: '08_rosto', name: 'Rostinho com Sardas', file: 'assets/monica/08_rosto.png', zIndex: 9, x: 35.968, y: 9.148, w: 28.387, h: 28.233 },
-          { id: '10_laco', name: 'Laço Floral', file: 'assets/monica/10_laco.png', zIndex: 11, x: 56.29, y: 0.315, w: 17.097, h: 20.347 }
-        ]
+        "id": "02_perna_dir",
+        "name": "Perna Direita",
+        "file": "assets/olivia/02_perna_dir.png",
+        "zIndex": 2,
+        "x": 50.5,
+        "y": 70.167,
+        "w": 5.667,
+        "h": 14.667
       },
       {
-        id: 'larissa',
-        name: 'Larissa',
-        subtitle: 'Vestido rosa & lacinhos',
-        thumb: 'assets/larissa/thumb.png',
-        silhouette: 'assets/larissa/silhouette.png',
-        width: 620,
-        height: 634,
-        pieces: [
-          { id: '01_perna_esq', name: 'Perna Esquerda', file: 'assets/larissa/01_perna_esq.png', zIndex: 2, x: 36.935, y: 75.552, w: 11.613, h: 15.773 },
-          { id: '02_perna_dir', name: 'Perna Direita', file: 'assets/larissa/02_perna_dir.png', zIndex: 2, x: 54.032, y: 75.552, w: 12.419, h: 15.773 },
-          { id: '03_sapatilha_esq', name: 'Sapatilha Esquerda', file: 'assets/larissa/03_sapatilha_esq.png', zIndex: 4, x: 36.613, y: 86.909, w: 11.129, h: 12.776 },
-          { id: '04_sapatilha_dir', name: 'Sapatilha Direita', file: 'assets/larissa/04_sapatilha_dir.png', zIndex: 4, x: 56.129, y: 86.909, w: 11.613, h: 12.776 },
-          { id: '05_braco_esq', name: 'Braço Esquerdo', file: 'assets/larissa/05_braco_esq.png', zIndex: 5, x: 25.161, y: 39.748, w: 15.323, h: 16.246 },
-          { id: '06_braco_dir', name: 'Braço Direito', file: 'assets/larissa/06_braco_dir.png', zIndex: 5, x: 63.065, y: 39.117, w: 15.323, h: 16.562 },
-          { id: '07_vestido', name: 'Vestido Floral', file: 'assets/larissa/07_vestido.png', zIndex: 7, x: 17.097, y: 32.65, w: 67.903, h: 46.372 },
-          { id: '09_cabelo', name: 'Cachos Pretinhos', file: 'assets/larissa/09_cabelo.png', zIndex: 8, x: 28.065, y: 0.789, w: 44.032, h: 35.647 },
-          { id: '08_rosto', name: 'Rostinho', file: 'assets/larissa/08_rosto.png', zIndex: 9, x: 37.258, y: 11.83, w: 26.774, h: 23.975 },
-          { id: '10_lacos', name: 'Lacinhos Rosa', file: 'assets/larissa/10_lacos.png', zIndex: 11, x: 30.484, y: 0.631, w: 38.71, h: 15.3 }
-        ]
+        "id": "03_tenis_esq",
+        "name": "Tênis Esquerdo",
+        "file": "assets/olivia/03_tenis_esq.png",
+        "zIndex": 4,
+        "x": 41.667,
+        "y": 83.167,
+        "w": 8.667,
+        "h": 15.333
+      },
+      {
+        "id": "04_tenis_dir",
+        "name": "Tênis Direito",
+        "file": "assets/olivia/04_tenis_dir.png",
+        "zIndex": 4,
+        "x": 49.833,
+        "y": 83.5,
+        "w": 9.833,
+        "h": 14.667
+      },
+      {
+        "id": "05_calcola",
+        "name": "Calçola com Renda",
+        "file": "assets/olivia/05_calcola.png",
+        "zIndex": 5,
+        "x": 36.833,
+        "y": 65.667,
+        "w": 26.333,
+        "h": 7.167
+      },
+      {
+        "id": "06_braco_esq",
+        "name": "Braço Esquerdo",
+        "file": "assets/olivia/06_braco_esq.png",
+        "zIndex": 6,
+        "x": 30.167,
+        "y": 45.667,
+        "w": 11.333,
+        "h": 19.167
+      },
+      {
+        "id": "07_braco_dir",
+        "name": "Braço Direito",
+        "file": "assets/olivia/07_braco_dir.png",
+        "zIndex": 6,
+        "x": 59.0,
+        "y": 45.667,
+        "w": 8.667,
+        "h": 20.5
+      },
+      {
+        "id": "08_blusinha",
+        "name": "Blusinha Escolar",
+        "file": "assets/olivia/08_blusinha.png",
+        "zIndex": 7,
+        "x": 36.833,
+        "y": 37.0,
+        "w": 26.333,
+        "h": 13.5
+      },
+      {
+        "id": "09_jardineira",
+        "name": "Jardineira Xadrez",
+        "file": "assets/olivia/09_jardineira.png",
+        "zIndex": 8,
+        "x": 33.0,
+        "y": 37.5,
+        "w": 31.833,
+        "h": 31.667
+      },
+      {
+        "id": "11_cabelo",
+        "name": "Cachos Castanhos",
+        "file": "assets/olivia/11_cabelo.png",
+        "zIndex": 9,
+        "x": 32.167,
+        "y": 7.0,
+        "w": 39.833,
+        "h": 37.5
+      },
+      {
+        "id": "10_rosto",
+        "name": "Rostinho",
+        "file": "assets/olivia/10_rosto.png",
+        "zIndex": 10,
+        "x": 40.5,
+        "y": 16.667,
+        "w": 20.333,
+        "h": 21.833
+      },
+      {
+        "id": "12_laco",
+        "name": "Laço Xadrez",
+        "file": "assets/olivia/12_laco.png",
+        "zIndex": 12,
+        "x": 38.333,
+        "y": 2.333,
+        "w": 19.667,
+        "h": 13.5
       }
-    ];
+    ]
+  },
+  {
+    "id": "larissa",
+    "name": "Larissa",
+    "subtitle": "Vestido rosa & flamingos",
+    "gender": "f",
+    "thumb": "assets/larissa/thumb.png",
+    "silhouette": "assets/larissa/silhouette.png",
+    "width": 600,
+    "height": 600,
+    "pieces": [
+      {
+        "id": "01_perna_esq",
+        "name": "Perna Esquerda",
+        "file": "assets/larissa/01_perna_esq.png",
+        "zIndex": 2,
+        "x": 42.167,
+        "y": 74.5,
+        "w": 7.333,
+        "h": 13.333
+      },
+      {
+        "id": "02_perna_dir",
+        "name": "Perna Direita",
+        "file": "assets/larissa/02_perna_dir.png",
+        "zIndex": 2,
+        "x": 52.833,
+        "y": 74.5,
+        "w": 7.667,
+        "h": 13.333
+      },
+      {
+        "id": "03_sapatilha_esq",
+        "name": "Sapatilha Esquerda",
+        "file": "assets/larissa/03_sapatilha_esq.png",
+        "zIndex": 4,
+        "x": 41.833,
+        "y": 86.167,
+        "w": 9.167,
+        "h": 12.333
+      },
+      {
+        "id": "04_sapatilha_dir",
+        "name": "Sapatilha Direita",
+        "file": "assets/larissa/04_sapatilha_dir.png",
+        "zIndex": 4,
+        "x": 52.5,
+        "y": 86.167,
+        "w": 9.0,
+        "h": 12.0
+      },
+      {
+        "id": "05_braco_esq",
+        "name": "Braço Esquerdo",
+        "file": "assets/larissa/05_braco_esq.png",
+        "zIndex": 5,
+        "x": 26.333,
+        "y": 44.0,
+        "w": 12.167,
+        "h": 15.333
+      },
+      {
+        "id": "06_braco_dir",
+        "name": "Braço Direito",
+        "file": "assets/larissa/06_braco_dir.png",
+        "zIndex": 5,
+        "x": 62.333,
+        "y": 44.333,
+        "w": 11.667,
+        "h": 15.167
+      },
+      {
+        "id": "07_vestido",
+        "name": "Vestido Rosa & Floral",
+        "file": "assets/larissa/07_vestido.png",
+        "zIndex": 7,
+        "x": 24.833,
+        "y": 35.167,
+        "w": 52.667,
+        "h": 41.333
+      },
+      {
+        "id": "09_cabelo",
+        "name": "Cachos Pretinhos",
+        "file": "assets/larissa/09_cabelo.png",
+        "zIndex": 8,
+        "x": 28.167,
+        "y": 2.333,
+        "w": 45.0,
+        "h": 35.5
+      },
+      {
+        "id": "08_rosto",
+        "name": "Rostinho",
+        "file": "assets/larissa/08_rosto.png",
+        "zIndex": 9,
+        "x": 40.167,
+        "y": 16.333,
+        "w": 20.667,
+        "h": 20.5
+      },
+      {
+        "id": "10_lacos",
+        "name": "Lacinhos Rosa",
+        "file": "assets/larissa/10_lacos.png",
+        "zIndex": 11,
+        "x": 32.167,
+        "y": 4.667,
+        "w": 38.333,
+        "h": 21.5
+      }
+    ]
+  },
+  {
+    "id": "monica",
+    "name": "Mônica",
+    "subtitle": "Vestido princesa & laço rosa",
+    "gender": "f",
+    "thumb": "assets/monica/thumb.png",
+    "silhouette": "assets/monica/silhouette.png",
+    "width": 600,
+    "height": 600,
+    "pieces": [
+      {
+        "id": "01_perna_esq",
+        "name": "Perna Esquerda",
+        "file": "assets/monica/01_perna_esq.png",
+        "zIndex": 2,
+        "x": 38.833,
+        "y": 80.833,
+        "w": 9.0,
+        "h": 14.333
+      },
+      {
+        "id": "02_perna_dir",
+        "name": "Perna Direita",
+        "file": "assets/monica/02_perna_dir.png",
+        "zIndex": 2,
+        "x": 58.167,
+        "y": 82.167,
+        "w": 9.667,
+        "h": 13.0
+      },
+      {
+        "id": "03_sapato_esq",
+        "name": "Sapatilha Esquerda",
+        "file": "assets/monica/03_sapato_esq.png",
+        "zIndex": 4,
+        "x": 37.5,
+        "y": 93.167,
+        "w": 11.333,
+        "h": 6.833
+      },
+      {
+        "id": "04_sapato_dir",
+        "name": "Sapatilha Direita",
+        "file": "assets/monica/04_sapato_dir.png",
+        "zIndex": 4,
+        "x": 58.167,
+        "y": 93.167,
+        "w": 11.0,
+        "h": 6.833
+      },
+      {
+        "id": "05_braco_esq",
+        "name": "Braço Esquerdo",
+        "file": "assets/monica/05_braco_esq.png",
+        "zIndex": 5,
+        "x": 22.5,
+        "y": 50.333,
+        "w": 14.333,
+        "h": 21.5
+      },
+      {
+        "id": "06_braco_dir",
+        "name": "Braço Direito",
+        "file": "assets/monica/06_braco_dir.png",
+        "zIndex": 5,
+        "x": 63.167,
+        "y": 50.333,
+        "w": 14.667,
+        "h": 23.5
+      },
+      {
+        "id": "07_vestido",
+        "name": "Vestido Rosa",
+        "file": "assets/monica/07_vestido.png",
+        "zIndex": 7,
+        "x": 11.333,
+        "y": 38.167,
+        "w": 77.833,
+        "h": 48.667
+      },
+      {
+        "id": "09_cabelo",
+        "name": "Cachos Dourados",
+        "file": "assets/monica/09_cabelo.png",
+        "zIndex": 8,
+        "x": 22.167,
+        "y": 5.5,
+        "w": 56.833,
+        "h": 42.667
+      },
+      {
+        "id": "08_rosto",
+        "name": "Rostinho com Sardas",
+        "file": "assets/monica/08_rosto.png",
+        "zIndex": 9,
+        "x": 37.5,
+        "y": 15.667,
+        "w": 27.333,
+        "h": 24.5
+      },
+      {
+        "id": "10_laco",
+        "name": "Laço & Tiara Rosa",
+        "file": "assets/monica/10_laco.png",
+        "zIndex": 11,
+        "x": 27.667,
+        "y": 1.667,
+        "w": 41.833,
+        "h": 23.5
+      }
+    ]
+  },
+  {
+    "id": "abner",
+    "name": "Abner",
+    "subtitle": "Jardineira de bichinhos",
+    "gender": "m",
+    "thumb": "assets/abner/thumb.png",
+    "silhouette": "assets/abner/silhouette.png",
+    "width": 600,
+    "height": 600,
+    "pieces": [
+      {
+        "id": "01_perna_esq",
+        "name": "Perna Esquerda",
+        "file": "assets/abner/01_perna_esq.png",
+        "zIndex": 2,
+        "x": 42.0,
+        "y": 69.833,
+        "w": 5.833,
+        "h": 17.0
+      },
+      {
+        "id": "02_perna_dir",
+        "name": "Perna Direita",
+        "file": "assets/abner/02_perna_dir.png",
+        "zIndex": 2,
+        "x": 52.833,
+        "y": 69.833,
+        "w": 6.167,
+        "h": 17.0
+      },
+      {
+        "id": "03_sapato_esq",
+        "name": "Sapatinho Esquerdo",
+        "file": "assets/abner/03_sapato_esq.png",
+        "zIndex": 4,
+        "x": 39.667,
+        "y": 83.833,
+        "w": 9.167,
+        "h": 15.0
+      },
+      {
+        "id": "04_sapato_dir",
+        "name": "Sapatinho Direito",
+        "file": "assets/abner/04_sapato_dir.png",
+        "zIndex": 4,
+        "x": 51.833,
+        "y": 85.167,
+        "w": 9.5,
+        "h": 13.333
+      },
+      {
+        "id": "05_braco_esq",
+        "name": "Braço Esquerdo",
+        "file": "assets/abner/05_braco_esq.png",
+        "zIndex": 5,
+        "x": 34.0,
+        "y": 44.0,
+        "w": 6.833,
+        "h": 17.833
+      },
+      {
+        "id": "06_braco_dir",
+        "name": "Braço Direito",
+        "file": "assets/abner/06_braco_dir.png",
+        "zIndex": 5,
+        "x": 60.167,
+        "y": 44.0,
+        "w": 7.167,
+        "h": 17.833
+      },
+      {
+        "id": "07_camiseta",
+        "name": "Camiseta de Bolinhas",
+        "file": "assets/abner/07_camiseta.png",
+        "zIndex": 6,
+        "x": 33.833,
+        "y": 32.833,
+        "w": 32.333,
+        "h": 15.333
+      },
+      {
+        "id": "08_jardineira",
+        "name": "Jardineira de Bichinhos",
+        "file": "assets/abner/08_jardineira.png",
+        "zIndex": 7,
+        "x": 37.5,
+        "y": 32.5,
+        "w": 25.0,
+        "h": 39.5
+      },
+      {
+        "id": "09_cabelo",
+        "name": "Cachinhos Caramelo",
+        "file": "assets/abner/09_cabelo.png",
+        "zIndex": 8,
+        "x": 33.833,
+        "y": 3.667,
+        "w": 34.167,
+        "h": 32.167
+      },
+      {
+        "id": "10_rosto",
+        "name": "Rostinho do Abner",
+        "file": "assets/abner/10_rosto.png",
+        "zIndex": 9,
+        "x": 40.167,
+        "y": 12.667,
+        "w": 21.0,
+        "h": 22.167
+      }
+    ]
+  },
+  {
+    "id": "alyne",
+    "name": "Alyne",
+    "subtitle": "Vestido verde-menta & renda",
+    "gender": "f",
+    "thumb": "assets/alyne/thumb.png",
+    "silhouette": "assets/alyne/silhouette.png",
+    "width": 600,
+    "height": 600,
+    "pieces": [
+      {
+        "id": "01_perna_esq",
+        "name": "Perna Esquerda",
+        "file": "assets/alyne/01_perna_esq.png",
+        "zIndex": 2,
+        "x": 42.833,
+        "y": 70.5,
+        "w": 6.5,
+        "h": 16.333
+      },
+      {
+        "id": "02_perna_dir",
+        "name": "Perna Direita",
+        "file": "assets/alyne/02_perna_dir.png",
+        "zIndex": 2,
+        "x": 52.0,
+        "y": 70.5,
+        "w": 6.667,
+        "h": 16.333
+      },
+      {
+        "id": "03_sapatilha_esq",
+        "name": "Sapatilha Esquerda",
+        "file": "assets/alyne/03_sapatilha_esq.png",
+        "zIndex": 4,
+        "x": 42.667,
+        "y": 85.167,
+        "w": 7.333,
+        "h": 11.667
+      },
+      {
+        "id": "04_sapatilha_dir",
+        "name": "Sapatilha Direita",
+        "file": "assets/alyne/04_sapatilha_dir.png",
+        "zIndex": 4,
+        "x": 51.667,
+        "y": 85.167,
+        "w": 7.333,
+        "h": 11.667
+      },
+      {
+        "id": "05_braco_esq",
+        "name": "Braço Esquerdo",
+        "file": "assets/alyne/05_braco_esq.png",
+        "zIndex": 5,
+        "x": 31.167,
+        "y": 41.0,
+        "w": 10.333,
+        "h": 16.833
+      },
+      {
+        "id": "06_braco_dir",
+        "name": "Braço Direito",
+        "file": "assets/alyne/06_braco_dir.png",
+        "zIndex": 5,
+        "x": 59.833,
+        "y": 41.333,
+        "w": 8.0,
+        "h": 17.5
+      },
+      {
+        "id": "07_vestido",
+        "name": "Vestido Verde-Menta",
+        "file": "assets/alyne/07_vestido.png",
+        "zIndex": 7,
+        "x": 24.667,
+        "y": 31.5,
+        "w": 51.833,
+        "h": 42.667
+      },
+      {
+        "id": "09_cabelo",
+        "name": "Cachos Clarinhos",
+        "file": "assets/alyne/09_cabelo.png",
+        "zIndex": 8,
+        "x": 33.5,
+        "y": 9.0,
+        "w": 34.333,
+        "h": 26.5
+      },
+      {
+        "id": "08_rosto",
+        "name": "Rostinho da Alyne",
+        "file": "assets/alyne/08_rosto.png",
+        "zIndex": 9,
+        "x": 40.167,
+        "y": 14.0,
+        "w": 21.333,
+        "h": 19.167
+      },
+      {
+        "id": "10_laco",
+        "name": "Lacinho Verde-Menta",
+        "file": "assets/alyne/10_laco.png",
+        "zIndex": 11,
+        "x": 37.833,
+        "y": 6.667,
+        "w": 16.333,
+        "h": 8.5
+      }
+    ]
+  }
+];
 
     /* =========================================================================
        2. MÚSICA ALEGRE DE CAIXINHA DE MÚSICA & EFEITOS SONOROS (WEB AUDIO API)
@@ -1260,7 +1775,9 @@
       renderSidebar();
 
       targetZone.classList.add('completed');
-      victorySub.textContent = `Você montou a ${doll.name} todinha! Que talento!`;
+      const art = doll.gender === 'm' ? 'o' : 'a';
+      const adj = doll.gender === 'm' ? 'todinho' : 'todinha';
+      victorySub.textContent = `Você montou ${art} ${doll.name} ${adj}! Que talento!`;
       victoryBanner.classList.add('visible');
 
       audio.playViva();
@@ -1470,7 +1987,8 @@
       const doll = DOLLS[idx];
       placedIds = new Set();
 
-      currentDollTitle.textContent = `Montando a ${doll.name}`;
+      const art = doll.gender === 'm' ? 'o' : 'a';
+      currentDollTitle.textContent = `Montando ${art} ${doll.name}`;
       currentDollHint.textContent = `Arraste as ${doll.pieces.length} pecinhas até o lugar certo no molde!`;
 
       targetZone.classList.remove('completed');

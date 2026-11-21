@@ -1,4 +1,4 @@
-const CACHE_NAME = 'atelie-bonecas-pwa-v1';
+const CACHE_NAME = 'atelie-bonecas-pwa-v2';
 
 const CORE_ASSETS = [
   './',
@@ -12,7 +12,11 @@ const CORE_ASSETS = [
   './assets/larissa/thumb.png',
   './assets/larissa/silhouette.png',
   './assets/monica/thumb.png',
-  './assets/monica/silhouette.png'
+  './assets/monica/silhouette.png',
+  './assets/abner/thumb.png',
+  './assets/abner/silhouette.png',
+  './assets/alyne/thumb.png',
+  './assets/alyne/silhouette.png'
 ];
 
 self.addEventListener('install', (event) => {
