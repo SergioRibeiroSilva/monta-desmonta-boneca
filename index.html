@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Ateliê das Bonecas — Monte a Olívia, Mônica e Larissa</title>
+
+  <!-- Configurações PWA (Instalável no Android, iOS e Desktop) -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#e47b96" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Ateliê Bonecas" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-cream: #faf4ec;
+      --bg-panel: #fffdf9;
+      --ink: #42291f;
+      --ink-soft: #7d6255;
+      --pink: #e47b96;
+      --pink-soft: #fdecf1;
+      --blue: #3552a8;
+      --blue-soft: #e9effd;
+      --mint: #4ab585;
+      --mint-soft: #e6f7ef;
+      --gold: #e6a84c;
+      --gold-soft: #fef4df;
+      --sidebar-w: 276px;
+      --shadow-card: 0 12px 30px rgba(66, 41, 31, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: var(--bg-cream);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Layout Principal do App: Menu à esquerda + Bancada à direita */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      height: 100vh;
+      height: 100dvh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    /* ================= MENU LATERAL ESQUERDO ================= */
+    .sidebar {
+      background: var(--bg-panel);
+      border-right: 2px dashed rgba(228, 123, 150, 0.35);
+      display: flex;
+      flex-direction: column;
+      padding: 18px 16px;
+      gap: 14px;
+      z-index: 40;
+      box-shadow: 6px 0 24px rgba(66, 41, 31, 0.05);
+      overflow-y: auto;
+    }
+
+    .app-brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 4px 4px 10px;
+      border-bottom: 1.5px dashed rgba(230, 168, 76, 0.4);
+    }
+
+    .brand-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--pink-soft), var(--gold-soft));
+      border: 2px solid var(--pink);
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .brand-title h1 {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.2rem;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+
+    .brand-title p {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--pink);
+    }
+
+    .menu-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      padding: 0 4px;
+    }
+
+    .doll-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .doll-card-btn {
+      width: 100%;
+      border: 2px solid rgba(66, 41, 31, 0.09);
+      background: #fff;
+      border-radius: 20px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: transform 0.18s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      position: relative;
+    }
+
+    .doll-card-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--pink);
+      box-shadow: 0 8px 18px rgba(228, 123, 150, 0.16);
+    }
+
+    .doll-card-btn.active {
+      border-color: var(--pink);
+      background: linear-gradient(135deg, #fff8fa, #fffdf8);
+      box-shadow: 0 10px 22px rgba(228, 123, 150, 0.22);
+    }
+
+    .doll-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      object-fit: cover;
+      border: 2px solid rgba(230, 168, 76, 0.35);
+      background: var(--bg-cream);
+      flex-shrink: 0;
+    }
+
+    .doll-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .doll-name {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.08rem;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .doll-sub {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+    }
+
+    .doll-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      width: fit-content;
+      margin-top: 2px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .doll-badge.done {
+      background: var(--mint-soft);
+      color: #218358;
+    }
+
+    /* Rodapé do Menu Lateral: Música + Instalar PWA */
+    .sidebar-footer {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 1.5px dashed rgba(230, 168, 76, 0.4);
+    }
+
+    .music-card {
+      background: var(--gold-soft);
+      border: 1.5px solid rgba(230, 168, 76, 0.45);
+      border-radius: 18px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .music-btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 9px 12px;
+      background: var(--pink);
+      color: #fff;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .music-btn:active { transform: scale(0.97); }
+    .music-btn.playing { background: linear-gradient(135deg, #e47b96, #e69d4c); }
+
+    .music-waves {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 13px;
+    }
+
+    .music-waves i {
+      width: 3px;
+      height: 4px;
+      background: #fff;
+      border-radius: 2px;
+    }
+
+    .music-btn.playing .music-waves i:nth-child(1) { animation: eq 0.65s ease-in-out infinite; }
+    .music-btn.playing .music-waves i:nth-child(2) { animation: eq 0.5s ease-in-out 0.15s infinite; }
+    .music-btn.playing .music-waves i:nth-child(3) { animation: eq 0.75s ease-in-out 0.3s infinite; }
+
+    @keyframes eq {
+      0%, 100% { height: 4px; }
+      50% { height: 13px; }
+    }
+
+    .vol-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+    }
+
+    .vol-row input[type="range"] {
+      flex: 1;
+      accent-color: var(--pink);
+      cursor: pointer;
+    }
+
+    .install-btn {
+      width: 100%;
+      border: 2px dashed var(--blue);
+      background: var(--blue-soft);
+      color: var(--blue);
+      border-radius: 14px;
+      padding: 9px 12px;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: background 0.2s ease;
+    }
+
+    .install-btn.visible {
+      display: flex;
+    }
+
+    .install-btn:hover {
+      background: #dbe6fd;
+    }
+
+    /* ================= ÁREA PRINCIPAL DO JOGO ================= */
+    .workspace {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-width: 0;
+      position: relative;
+      background-color: var(--bg-cream);
+      background-image:
+        radial-gradient(rgba(228, 123, 150, 0.14) 1.5px, transparent 1.5px),
+        radial-gradient(rgba(230, 168, 76, 0.14) 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
+    }
+
+    .top-hud {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 20px;
+      background: rgba(255, 253, 249, 0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1.5px dashed rgba(230, 168, 76, 0.45);
+      z-index: 25;
+      flex-wrap: wrap;
+    }
+
+    .hud-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      border: 2px solid var(--pink);
+      background: var(--pink-soft);
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 7px 11px;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .hud-title-wrap h2 {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.25rem;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+
+    .hud-title-wrap p {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+    }
+
+    .progress-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 2px solid rgba(228, 123, 150, 0.35);
+      border-radius: 999px;
+      padding: 6px 14px;
+      min-width: 190px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 10px;
+      background: var(--pink-soft);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--pink), var(--gold), var(--mint));
+      border-radius: 999px;
+      transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .progress-text {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.88rem;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .hud-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hud-btn {
+      border: 2px solid rgba(66, 41, 31, 0.12);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 14px;
+      padding: 8px 14px;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .hud-btn:hover {
+      background: var(--gold-soft);
+      border-color: var(--gold);
+    }
+
+    .hud-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* ================= TABULEIRO DE ARRASTAR E SOLTAR ================= */
+    .play-board {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    /* Moldura central da boneca (Alvo de montagem) */
+    .target-zone {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 34px;
+      background: radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.92), rgba(255, 249, 240, 0.72));
+      border: 3px dashed rgba(228, 123, 150, 0.42);
+      box-shadow: 0 20px 44px rgba(66, 41, 31, 0.08), inset 0 0 0 6px rgba(255, 255, 255, 0.7);
+      transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.4s ease;
+      pointer-events: none;
+    }
+
+    .target-zone.completed {
+      border-color: var(--mint);
+      box-shadow: 0 22px 50px rgba(74, 181, 133, 0.25), 0 0 0 8px rgba(74, 181, 133, 0.14);
+      animation: dollCelebrate 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes dollCelebrate {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      40% { transform: translate(-50%, -53%) scale(1.05); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .target-silhouette {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      opacity: 0.95;
+      transition: opacity 0.5s ease;
+    }
+
+    .target-zone.completed .target-silhouette {
+      opacity: 0;
+    }
+
+    /* Indicador visual de alvo (aparece quando arrasta perto ou clica em Dica) */
+    .snap-guide {
+      position: absolute;
+      border-radius: 18px;
+      border: 3px dashed var(--gold);
+      background: rgba(254, 244, 223, 0.55);
+      box-shadow: 0 0 22px rgba(230, 168, 76, 0.5);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 30;
+    }
+
+    .snap-guide.visible {
+      opacity: 1;
+      animation: guidePulse 0.9s ease-in-out infinite;
+    }
+
+    .snap-guide.near {
+      border-color: var(--mint);
+      background: rgba(230, 247, 239, 0.62);
+      box-shadow: 0 0 26px rgba(74, 181, 133, 0.65);
+    }
+
+    @keyframes guidePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    /* Peça encaixada dentro da zona alvo */
+    .placed-piece {
+      position: absolute;
+      pointer-events: none;
+      animation: popSnap 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .placed-piece img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    @keyframes popSnap {
+      0% { transform: scale(1.16); filter: drop-shadow(0 0 18px rgba(74, 181, 133, 0.9)); }
+      100% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(66, 41, 31, 0.08)); }
+    }
+
+    /* Peça solta e arrastável na bancada */
+    .drag-piece {
+      position: absolute;
+      cursor: grab;
+      touch-action: none;
+      z-index: 20;
+      filter: drop-shadow(0 10px 14px rgba(66, 41, 31, 0.2));
+      transition: filter 0.2s ease;
+      will-change: left, top, transform;
+    }
+
+    .drag-piece img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .drag-piece:hover {
+      filter: drop-shadow(0 14px 20px rgba(228, 123, 150, 0.36));
+    }
+
+    .drag-piece.dragging {
+      cursor: grabbing;
+      z-index: 90 !important;
+      filter: drop-shadow(0 20px 26px rgba(66, 41, 31, 0.28));
+    }
+
+    .drag-piece.hint-glow {
+      animation: hintShake 0.8s ease-in-out 2;
+      filter: drop-shadow(0 0 18px rgba(230, 168, 76, 0.95));
+    }
+
+    @keyframes hintShake {
+      0%, 100% { transform: rotate(var(--rot)) scale(1); }
+      25% { transform: rotate(calc(var(--rot) - 8deg)) scale(1.1); }
+      75% { transform: rotate(calc(var(--rot) + 8deg)) scale(1.1); }
+    }
+
+    /* Etiqueta flutuante com nome da peça ao arrastar */
+    .drag-tooltip {
+      position: fixed;
+      pointer-events: none;
+      background: var(--ink);
+      color: #fff;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.85rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      transform: translate(-50%, -135%);
+      z-index: 120;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
+
+    .drag-tooltip.visible {
+      opacity: 1;
+    }
+
+    /* Partículas de estrelinhas ao encaixar */
+    .sparkle {
+      position: absolute;
+      font-size: 20px;
+      pointer-events: none;
+      z-index: 100;
+      animation: sparklePop 0.95s ease-out forwards;
+    }
+
+    @keyframes sparklePop {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+      25% { opacity: 1; transform: translate(calc(-50% + var(--dx) * 0.4), calc(-50% + var(--dy) * 0.4)) scale(1.25); }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.5) rotate(60deg); }
+    }
+
+    /* ================= CONFETES E OVERLAY DE VIVA! ================= */
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 150;
+    }
+
+    .victory-banner {
+      position: absolute;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%) translateY(130%);
+      background: rgba(255, 253, 249, 0.96);
+      backdrop-filter: blur(10px);
+      border: 3px solid var(--gold);
+      border-radius: 28px;
+      padding: 18px 26px;
+      box-shadow: 0 22px 50px rgba(66, 41, 31, 0.22);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+      z-index: 140;
+      max-width: min(460px, 92%);
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .victory-banner.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .victory-title {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+      background: linear-gradient(135deg, #e45a84, #e69d35, #38a875);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+    }
+
+    .victory-sub {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+    }
+
+    .victory-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    .btn-viva-primary {
+      border: none;
+      border-radius: 16px;
+      padding: 11px 20px;
+      background: linear-gradient(135deg, var(--pink), #e69650);
+      color: #fff;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.96rem;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(228, 123, 150, 0.35);
+      transition: transform 0.15s ease;
+    }
+
+    .btn-viva-primary:hover { transform: translateY(-2px); }
+
+    .btn-viva-soft {
+      border: 2px solid rgba(66, 41, 31, 0.14);
+      border-radius: 16px;
+      padding: 10px 18px;
+      background: #fff;
+      color: var(--ink);
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 0.94rem;
+      cursor: pointer;
+    }
+
+    /* ================= RESPONSIVIDADE MOBILE / TABLET ================= */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(66, 41, 31, 0.35);
+      z-index: 35;
+    }
+
+    @media (max-width: 860px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: min(290px, 84vw);
+        transform: translateX(-105%);
+        transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-backdrop.open {
+        display: block;
+      }
+
+      .mobile-menu-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .top-hud {
+        padding: 10px 12px;
+      }
+
+      .progress-pill {
+        min-width: 135px;
+        padding: 5px 10px;
+      }
+
+      .hud-title-wrap p {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confettiCanvas"></canvas>
+  <div id="dragTooltip" class="drag-tooltip"></div>
+
+  <div class="app-shell">
+    <!-- Fundo escuro no mobile quando o menu abre -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+    <!-- MENU ESQUERDO COM AS 3 BONECAS -->
+    <aside id="sidebar" class="sidebar" aria-label="Menu de seleção de bonecas">
+      <div class="app-brand">
+        <div class="brand-icon">🎀</div>
+        <div class="brand-title">
+          <h1>Ateliê das Bonecas</h1>
+          <p>Arraste e monte você mesmo!</p>
+        </div>
+      </div>
+
+      <div class="menu-label">Escolha uma Boneca</div>
+      <div id="dollList" class="doll-list"></div>
+
+      <div class="sidebar-footer">
+        <div class="music-card">
+          <button id="musicBtn" class="music-btn" type="button">
+            <span class="music-waves" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span id="musicLabel">Tocar Musiquinha</span>
+          </button>
+          <div class="vol-row">
+            <span>🔊</span>
+            <input id="volSlider" type="range" min="0" max="1" step="0.05" value="0.65" aria-label="Volume da música" />
+          </div>
+        </div>
+
+        <button id="installBtn" class="install-btn" type="button">
+          📲 Instalar Aplicativo
+        </button>
+      </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL DE MONTAGEM -->
+    <main class="workspace">
+      <header class="top-hud">
+        <div class="hud-left">
+          <button id="mobileMenuBtn" class="mobile-menu-btn" type="button">☰ Bonecas</button>
+          <div class="hud-title-wrap">
+            <h2 id="currentDollTitle">Montando a Olívia</h2>
+            <p id="currentDollHint">Arraste cada pecinha até o lugar certo no molde!</p>
+          </div>
+        </div>
+
+        <div class="progress-pill">
+          <div class="progress-track">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+          <span id="progressText" class="progress-text">0 / 12</span>
+        </div>
+
+        <div class="hud-actions">
+          <button id="hintBtn" class="hud-btn" type="button" title="Mostrar onde uma peça encaixa">💡 Dica</button>
+          <button id="resetBtn" class="hud-btn" type="button" title="Desmontar tudo e começar de novo">🔄 Recomeçar</button>
+        </div>
+      </header>
+
+      <section id="playBoard" class="play-board" aria-label="Tabuleiro de montagem da boneca">
+        <div id="targetZone" class="target-zone">
+          <img id="targetSilhouette" class="target-silhouette" alt="" />
+          <div id="snapGuide" class="snap-guide"></div>
+          <div id="placedLayer"></div>
+        </div>
+
+        <div id="dragLayer"></div>
+
+        <!-- Banner Festivo de VIVA! -->
+        <div id="victoryBanner" class="victory-banner" role="status" aria-live="polite">
+          <div class="victory-title">🎉 VIVA!! PARABÉNS!! 🎉</div>
+          <div id="victorySub" class="victory-sub">Você montou a Olívia todinha!</div>
+          <div class="victory-actions">
+            <button id="nextDollBtn" class="btn-viva-primary" type="button">✨ Próxima Boneca</button>
+            <button id="playAgainBtn" class="btn-viva-soft" type="button">🔄 Montar de Novo</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    /* =========================================================================
+       1. DADOS DAS 3 BONECAS (EMBUTIDOS PARA FUNCIONAR OFFLINE E VIA FILE://)
+       ========================================================================= */
+    const DOLLS = [
+      {
+        id: 'olivia',
+        name: 'Olívia',
+        subtitle: 'Jardineira xadrez & cachos',
+        thumb: 'assets/olivia/thumb.png',
+        silhouette: 'assets/olivia/silhouette.png',
+        width: 480,
+        height: 853,
+        pieces: [
+          { id: '01_perna_esq', name: 'Perna Esquerda', file: 'assets/olivia/01_perna_esq.png', zIndex: 2, x: 37.917, y: 64.478, w: 8.542, h: 14.185 },
+          { id: '02_perna_dir', name: 'Perna Direita', file: 'assets/olivia/02_perna_dir.png', zIndex: 2, x: 49.375, y: 65.416, w: 8.333, h: 13.247 },
+          { id: '03_tenis_esq', name: 'Tênis Esquerdo', file: 'assets/olivia/03_tenis_esq.png', zIndex: 4, x: 36.042, y: 76.905, w: 13.333, h: 15.123 },
+          { id: '04_tenis_dir', name: 'Tênis Direito', file: 'assets/olivia/04_tenis_dir.png', zIndex: 4, x: 48.333, y: 77.257, w: 16.042, h: 14.42 },
+          { id: '05_calcola', name: 'Calçola com Renda', file: 'assets/olivia/05_calcola.png', zIndex: 5, x: 29.583, y: 59.32, w: 39.167, h: 7.268 },
+          { id: '06_braco_esq', name: 'Braço Esquerdo', file: 'assets/olivia/06_braco_esq.png', zIndex: 6, x: 20.208, y: 43.611, w: 17.917, h: 15.358 },
+          { id: '07_braco_dir', name: 'Braço Direito', file: 'assets/olivia/07_braco_dir.png', zIndex: 6, x: 63.75, y: 44.549, w: 12.917, h: 16.413 },
+          { id: '08_blusinha', name: 'Blusinha Escolar', file: 'assets/olivia/08_blusinha.png', zIndex: 7, x: 31.875, y: 36.577, w: 36.875, h: 10.199 },
+          { id: '09_jardineira', name: 'Jardineira Xadrez', file: 'assets/olivia/09_jardineira.png', zIndex: 8, x: 23.542, y: 36.811, w: 48.542, h: 26.026 },
+          { id: '10_rosto', name: 'Rostinho', file: 'assets/olivia/10_rosto.png', zIndex: 9, x: 37.292, y: 19.109, w: 29.583, h: 18.992 },
+          { id: '11_cabelo', name: 'Cachos Castanhos', file: 'assets/olivia/11_cabelo.png', zIndex: 10, x: 26.875, y: 11.958, w: 55.417, h: 30.715 },
+          { id: '12_laco', name: 'Laço Xadrez', file: 'assets/olivia/12_laco.png', zIndex: 12, x: 35.833, y: 8.441, w: 27.083, h: 10.434 }
+        ]
+      },
+      {
+        id: 'monica',
+        name: 'Mônica',
+        subtitle: 'Cachos dourados & sardinhas',
+        thumb: 'assets/monica/thumb.png',
+        silhouette: 'assets/monica/silhouette.png',
+        width: 620,
+        height: 634,
+        pieces: [
+          { id: '01_perna_esq', name: 'Perna Esquerda', file: 'assets/monica/01_perna_esq.png', zIndex: 2, x: 36.613, y: 77.129, w: 12.903, h: 12.618 },
+          { id: '02_perna_dir', name: 'Perna Direita', file: 'assets/monica/02_perna_dir.png', zIndex: 2, x: 50.484, y: 77.129, w: 12.903, h: 12.618 },
+          { id: '03_sapato_esq', name: 'Sapatinho Esquerdo', file: 'assets/monica/03_sapato_esq.png', zIndex: 4, x: 33.065, y: 85.016, w: 17.419, h: 14.196 },
+          { id: '04_sapato_dir', name: 'Sapatinho Direito', file: 'assets/monica/04_sapato_dir.png', zIndex: 4, x: 50.161, y: 85.016, w: 14.839, h: 14.511 },
+          { id: '05_braco_esq', name: 'Braço Esquerdo', file: 'assets/monica/05_braco_esq.png', zIndex: 5, x: 24.194, y: 43.849, w: 14.677, h: 17.508 },
+          { id: '06_braco_dir', name: 'Braço Direito', file: 'assets/monica/06_braco_dir.png', zIndex: 5, x: 60.323, y: 43.533, w: 13.871, h: 18.927 },
+          { id: '07_vestido', name: 'Vestido Floral', file: 'assets/monica/07_vestido.png', zIndex: 7, x: 17.903, y: 33.596, w: 63.71, h: 46.688 },
+          { id: '09_cabelo', name: 'Cachos Dourados', file: 'assets/monica/09_cabelo.png', zIndex: 8, x: 23.065, y: 0.158, w: 53.065, h: 38.959 },
+          { id: '08_rosto', name: 'Rostinho com Sardas', file: 'assets/monica/08_rosto.png', zIndex: 9, x: 35.968, y: 9.148, w: 28.387, h: 28.233 },
+          { id: '10_laco', name: 'Laço Floral', file: 'assets/monica/10_laco.png', zIndex: 11, x: 56.29, y: 0.315, w: 17.097, h: 20.347 }
+        ]
+      },
+      {
+        id: 'larissa',
+        name: 'Larissa',
+        subtitle: 'Vestido rosa & lacinhos',
+        thumb: 'assets/larissa/thumb.png',
+        silhouette: 'assets/larissa/silhouette.png',
+        width: 620,
+        height: 634,
+        pieces: [
+          { id: '01_perna_esq', name: 'Perna Esquerda', file: 'assets/larissa/01_perna_esq.png', zIndex: 2, x: 36.935, y: 75.552, w: 11.613, h: 15.773 },
+          { id: '02_perna_dir', name: 'Perna Direita', file: 'assets/larissa/02_perna_dir.png', zIndex: 2, x: 54.032, y: 75.552, w: 12.419, h: 15.773 },
+          { id: '03_sapatilha_esq', name: 'Sapatilha Esquerda', file: 'assets/larissa/03_sapatilha_esq.png', zIndex: 4, x: 36.613, y: 86.909, w: 11.129, h: 12.776 },
+          { id: '04_sapatilha_dir', name: 'Sapatilha Direita', file: 'assets/larissa/04_sapatilha_dir.png', zIndex: 4, x: 56.129, y: 86.909, w: 11.613, h: 12.776 },
+          { id: '05_braco_esq', name: 'Braço Esquerdo', file: 'assets/larissa/05_braco_esq.png', zIndex: 5, x: 25.161, y: 39.748, w: 15.323, h: 16.246 },
+          { id: '06_braco_dir', name: 'Braço Direito', file: 'assets/larissa/06_braco_dir.png', zIndex: 5, x: 63.065, y: 39.117, w: 15.323, h: 16.562 },
+          { id: '07_vestido', name: 'Vestido Floral', file: 'assets/larissa/07_vestido.png', zIndex: 7, x: 17.097, y: 32.65, w: 67.903, h: 46.372 },
+          { id: '09_cabelo', name: 'Cachos Pretinhos', file: 'assets/larissa/09_cabelo.png', zIndex: 8, x: 28.065, y: 0.789, w: 44.032, h: 35.647 },
+          { id: '08_rosto', name: 'Rostinho', file: 'assets/larissa/08_rosto.png', zIndex: 9, x: 37.258, y: 11.83, w: 26.774, h: 23.975 },
+          { id: '10_lacos', name: 'Lacinhos Rosa', file: 'assets/larissa/10_lacos.png', zIndex: 11, x: 30.484, y: 0.631, w: 38.71, h: 15.3 }
+        ]
+      }
+    ];
+
+    /* =========================================================================
+       2. MÚSICA ALEGRE DE CAIXINHA DE MÚSICA & EFEITOS SONOROS (WEB AUDIO API)
+       ========================================================================= */
+    class MusicBoxAudio {
+      constructor() {
+        this.ctx = null;
+        this.masterGain = null;
+        this.isPlaying = false;
+        this.userMuted = false;
+        this.timer = null;
+        this.step = 0;
+        this.volume = 0.65;
+
+        const N = {
+          C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88,
+          C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.00, B5: 987.77,
+          C6: 1046.50, D6: 1174.66, E6: 1318.51
+        };
+
+        this.song = [
+          [N.E5, N.C4], [N.G5, null], [N.C6, N.E4], [N.B5, null], [N.A5, N.G4], [N.G5, null],
+          [N.A5, N.F4], [N.G5, null], [N.F5, N.A4], [N.E5, null], [N.D5, N.C4], [null, null],
+          [N.D5, N.G4], [N.F5, null], [N.A5, N.B4], [N.G5, null], [N.F5, N.D4], [N.E5, null],
+          [N.G5, N.C4], [N.E5, null], [N.C5, N.G4], [N.E5, null], [N.G5, N.E4], [null, null],
+          [N.A5, N.F4], [N.C6, null], [N.B5, N.A4], [N.A5, null], [N.G5, N.C4], [N.E5, null],
+          [N.F5, N.D4], [N.A5, null], [N.G5, N.F4], [N.F5, null], [N.E5, N.C4], [N.D5, null],
+          [N.E5, N.G4], [N.G5, null], [N.C6, N.E4], [N.D6, null], [N.E6, N.G4], [N.C6, null],
+          [N.A5, N.F4], [N.B5, N.G4], [N.C6, N.C4], [null, N.E4], [N.G5, N.G4], [null, null]
+        ];
+      }
+
+      ensure() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+          this.masterGain = this.ctx.createGain();
+          this.masterGain.gain.value = this.volume * 0.42;
+          this.masterGain.connect(this.ctx.destination);
+        }
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+      }
+
+      setVolume(v) {
+        this.volume = v;
+        if (this.masterGain && this.ctx) {
+          this.masterGain.gain.setTargetAtTime(v * 0.42, this.ctx.currentTime, 0.04);
+        }
+      }
+
+      bell(freq, dur = 1.1, peak = 0.28, delay = 0) {
+        if (!this.ctx || !freq) return;
+        const t = this.ctx.currentTime + delay;
+        const o1 = this.ctx.createOscillator();
+        const g1 = this.ctx.createGain();
+        o1.type = 'sine';
+        o1.frequency.setValueAtTime(freq, t);
+
+        const o2 = this.ctx.createOscillator();
+        const g2 = this.ctx.createGain();
+        o2.type = 'triangle';
+        o2.frequency.setValueAtTime(freq * 2, t);
+
+        g1.gain.setValueAtTime(0.0001, t);
+        g1.gain.exponentialRampToValueAtTime(peak, t + 0.015);
+        g1.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+
+        g2.gain.setValueAtTime(0.0001, t);
+        g2.gain.exponentialRampToValueAtTime(peak * 0.2, t + 0.01);
+        g2.gain.exponentialRampToValueAtTime(0.0001, t + dur * 0.45);
+
+        o1.connect(g1).connect(this.masterGain);
+        o2.connect(g2).connect(this.masterGain);
+        o1.start(t); o2.start(t);
+        o1.stop(t + dur + 0.05); o2.stop(t + dur + 0.05);
+      }
+
+      playPickup() {
+        this.ensure();
+        this.bell(659.25, 0.25, 0.16, 0);
+      }
+
+      playSnap(count) {
+        this.ensure();
+        const notes = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.50, 1174.66, 1318.51];
+        const f = notes[count % notes.length];
+        this.bell(f, 0.65, 0.3, 0);
+        this.bell(f * 1.25, 0.55, 0.2, 0.07);
+      }
+
+      playViva() {
+        this.ensure();
+        const fanfare = [523.25, 659.25, 783.99, 1046.50, 783.99, 1046.50, 1318.51, 1567.98];
+        const times =   [0,      0.09,   0.18,   0.28,    0.42,   0.52,    0.64,    0.78];
+        fanfare.forEach((f, i) => this.bell(f, 1.35, 0.32, times[i]));
+      }
+
+      startIfAllowed() {
+        if (!this.userMuted && !this.isPlaying) this.start();
+      }
+
+      start() {
+        this.ensure();
+        if (this.isPlaying) return;
+        this.isPlaying = true;
+        this.userMuted = false;
+        this.tick();
+        this.timer = setInterval(() => this.tick(), 300);
+        updateMusicUI();
+      }
+
+      stop(byUser = false) {
+        this.isPlaying = false;
+        if (byUser) this.userMuted = true;
+        if (this.timer) {
+          clearInterval(this.timer);
+          this.timer = null;
+        }
+        updateMusicUI();
+      }
+
+      toggle() {
+        if (this.isPlaying) this.stop(true);
+        else this.start();
+      }
+
+      tick() {
+        if (!this.isPlaying) return;
+        const [m, b] = this.song[this.step % this.song.length];
+        if (m) this.bell(m, 1.2, 0.25, 0);
+        if (b) this.bell(b, 1.4, 0.13, 0.01);
+        this.step++;
+      }
+    }
+
+    const audio = new MusicBoxAudio();
+
+    /* =========================================================================
+       3. CHUVA DE CONFETES COLORIDOS (CANVAS)
+       ========================================================================= */
+    const confettiCanvas = document.getElementById('confettiCanvas');
+    const cctx = confettiCanvas.getContext('2d');
+    let confettiParticles = [];
+    let confettiRAF = null;
+
+    function resizeConfetti() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeConfetti);
+    resizeConfetti();
+
+    function launchConfetti() {
+      const colors = ['#e47b96', '#f7b731', '#4ab585', '#4b7bec', '#a55eea', '#ff7979', '#ffd32a'];
+      for (let i = 0; i < 170; i++) {
+        confettiParticles.push({
+          x: Math.random() * confettiCanvas.width,
+          y: -20 - Math.random() * 260,
+          w: 7 + Math.random() * 8,
+          h: 10 + Math.random() * 9,
+          vx: (Math.random() - 0.5) * 4.5,
+          vy: 2.5 + Math.random() * 4.5,
+          rot: Math.random() * Math.PI * 2,
+          vrot: (Math.random() - 0.5) * 0.22,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1
+        });
+      }
+      if (!confettiRAF) animateConfetti();
+    }
+
+    function animateConfetti() {
+      cctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      confettiParticles = confettiParticles.filter((p) => p.y < confettiCanvas.height + 40 && p.alpha > 0.02);
+
+      for (const p of confettiParticles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vrot;
+        p.vy += 0.05;
+        if (p.y > confettiCanvas.height * 0.78) p.alpha -= 0.015;
+
+        cctx.save();
+        cctx.globalAlpha = Math.max(0, p.alpha);
+        cctx.translate(p.x, p.y);
+        cctx.rotate(p.rot);
+        cctx.fillStyle = p.color;
+        cctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        cctx.restore();
+      }
+
+      if (confettiParticles.length > 0) {
+        confettiRAF = requestAnimationFrame(animateConfetti);
+      } else {
+        cctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        confettiRAF = null;
+      }
+    }
+
+    /* =========================================================================
+       4. MOTOR DO JOGO DE ARRASTAR E MONTAR BONECAS
+       ========================================================================= */
+    const dollListEl = document.getElementById('dollList');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const currentDollTitle = document.getElementById('currentDollTitle');
+    const currentDollHint = document.getElementById('currentDollHint');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const playBoard = document.getElementById('playBoard');
+    const targetZone = document.getElementById('targetZone');
+    const targetSilhouette = document.getElementById('targetSilhouette');
+    const snapGuide = document.getElementById('snapGuide');
+    const placedLayer = document.getElementById('placedLayer');
+    const dragLayer = document.getElementById('dragLayer');
+    const dragTooltip = document.getElementById('dragTooltip');
+    const victoryBanner = document.getElementById('victoryBanner');
+    const victorySub = document.getElementById('victorySub');
+    const nextDollBtn = document.getElementById('nextDollBtn');
+    const playAgainBtn = document.getElementById('playAgainBtn');
+    const hintBtn = document.getElementById('hintBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const musicBtn = document.getElementById('musicBtn');
+    const musicLabel = document.getElementById('musicLabel');
+    const volSlider = document.getElementById('volSlider');
+
+    let currentDollIndex = 0;
+    let placedIds = new Set();
+    let targetMetrics = { left: 0, top: 0, width: 300, height: 400 };
+    let completedDolls = new Set(JSON.parse(localStorage.getItem('completedDolls') || '[]'));
+
+    function saveCompleted() {
+      localStorage.setItem('completedDolls', JSON.stringify([...completedDolls]));
+    }
+
+    function updateMusicUI() {
+      musicBtn.classList.toggle('playing', audio.isPlaying);
+      musicLabel.textContent = audio.isPlaying ? 'Pausar Musiquinha' : 'Tocar Musiquinha';
+    }
+
+    function renderSidebar() {
+      dollListEl.innerHTML = '';
+      DOLLS.forEach((doll, idx) => {
+        const isDone = completedDolls.has(doll.id);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'doll-card-btn' + (idx === currentDollIndex ? ' active' : '');
+        btn.innerHTML = `
+          <img class="doll-thumb" src="${doll.thumb}" alt="${doll.name}" />
+          <div class="doll-info">
+            <div class="doll-name">${doll.name}</div>
+            <div class="doll-sub">${doll.subtitle}</div>
+            <span class="doll-badge ${isDone ? 'done' : ''}">
+              ${isDone ? '🏆 Montada!' : `🧩 ${doll.pieces.length} peças`}
+            </span>
+          </div>
+        `;
+        btn.addEventListener('click', () => {
+          closeMobileMenu();
+          selectDoll(idx);
+        });
+        dollListEl.appendChild(btn);
+      });
+    }
+
+    function computeTargetMetrics(doll) {
+      const bw = playBoard.clientWidth;
+      const bh = playBoard.clientHeight;
+      const aspect = doll.width / doll.height;
+      const isNarrow = bw < 680;
+
+      // Reserva espaço nas laterais (desktop) ou embaixo/lados (mobile) para as peças soltas
+      const maxH = isNarrow ? bh * 0.56 : bh * 0.82;
+      const maxW = isNarrow ? bw * 0.62 : bw * 0.44;
+
+      let th = maxH;
+      let tw = th * aspect;
+      if (tw > maxW) {
+        tw = maxW;
+        th = tw / aspect;
+      }
+
+      const tLeft = (bw - tw) / 2;
+      const tTop = isNarrow ? Math.max(14, bh * 0.05) : (bh - th) / 2;
+
+      targetMetrics = { left: tLeft, top: tTop, width: tw, height: th };
+      targetZone.style.width = `${tw}px`;
+      targetZone.style.height = `${th}px`;
+      targetZone.style.left = `${tLeft + tw / 2}px`;
+      targetZone.style.top = `${tTop + th / 2}px`;
+    }
+
+    function spawnSparklesAt(boardX, boardY, count = 8) {
+      const icons = ['✨', '⭐', '💖', '🌟', '🎀'];
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement('span');
+        s.className = 'sparkle';
+        s.textContent = icons[Math.floor(Math.random() * icons.length)];
+        s.style.left = `${boardX}px`;
+        s.style.top = `${boardY}px`;
+        const ang = (Math.PI * 2 * i) / count + Math.random() * 0.5;
+        const dist = 36 + Math.random() * 48;
+        s.style.setProperty('--dx', `${Math.cos(ang) * dist}px`);
+        s.style.setProperty('--dy', `${Math.sin(ang) * dist}px`);
+        playBoard.appendChild(s);
+        setTimeout(() => s.remove(), 1000);
+      }
+    }
+
+    function showSnapGuide(piece, isNear = false) {
+      snapGuide.style.left = `${piece.x}%`;
+      snapGuide.style.top = `${piece.y}%`;
+      snapGuide.style.width = `${piece.w}%`;
+      snapGuide.style.height = `${piece.h}%`;
+      snapGuide.classList.add('visible');
+      snapGuide.classList.toggle('near', isNear);
+    }
+
+    function hideSnapGuide() {
+      snapGuide.classList.remove('visible', 'near');
+    }
+
+    function updateProgress() {
+      const doll = DOLLS[currentDollIndex];
+      const done = placedIds.size;
+      const total = doll.pieces.length;
+      progressFill.style.width = `${Math.round((done / total) * 100)}%`;
+      progressText.textContent = `${done} / ${total}`;
+    }
+
+    function placePieceInTarget(piece) {
+      const el = document.createElement('div');
+      el.className = 'placed-piece';
+      el.style.left = `${piece.x}%`;
+      el.style.top = `${piece.y}%`;
+      el.style.width = `${piece.w}%`;
+      el.style.height = `${piece.h}%`;
+      el.style.zIndex = String(piece.zIndex);
+
+      const img = document.createElement('img');
+      img.src = piece.file;
+      img.alt = piece.name;
+      img.draggable = false;
+      el.appendChild(img);
+      placedLayer.appendChild(el);
+    }
+
+    function checkVictory() {
+      const doll = DOLLS[currentDollIndex];
+      if (placedIds.size < doll.pieces.length) return;
+
+      completedDolls.add(doll.id);
+      saveCompleted();
+      renderSidebar();
+
+      targetZone.classList.add('completed');
+      victorySub.textContent = `Você montou a ${doll.name} todinha! Que talento!`;
+      victoryBanner.classList.add('visible');
+
+      audio.playViva();
+      launchConfetti();
+      setTimeout(launchConfetti, 650);
+
+      spawnSparklesAt(targetMetrics.left + targetMetrics.width * 0.5, targetMetrics.top + targetMetrics.height * 0.3, 14);
+      spawnSparklesAt(targetMetrics.left + targetMetrics.width * 0.5, targetMetrics.top + targetMetrics.height * 0.7, 12);
+    }
+
+    // Distribui as peças desmontadas ao redor do molde sem sair da tela
+    function scatterPieces(doll) {
+      dragLayer.innerHTML = '';
+      const bw = playBoard.clientWidth;
+      const bh = playBoard.clientHeight;
+      const isNarrow = bw < 680;
+
+      // Embaralha a ordem para ficar divertido!
+      const shuffled = [...doll.pieces].sort(() => Math.random() - 0.5);
+      const half = Math.ceil(shuffled.length / 2);
+
+      shuffled.forEach((piece, idx) => {
+        if (placedIds.has(piece.id)) return;
+
+        const pw = Math.max(46, (piece.w / 100) * targetMetrics.width);
+        const ph = Math.max(46, (piece.h / 100) * targetMetrics.height);
+
+        let px = 20;
+        let py = 20;
+
+        if (!isNarrow) {
+          // Desktop/Tablet paisagem: metade na esquerda, metade na direita do molde
+          const onLeft = idx < half;
+          const slotIdx = onLeft ? idx : idx - half;
+          const slotsInCol = onLeft ? half : shuffled.length - half;
+          const colMargin = 16;
+          const availLeftW = Math.max(70, targetMetrics.left - colMargin * 2);
+          const availRightW = Math.max(70, bw - (targetMetrics.left + targetMetrics.width) - colMargin * 2);
+
+          if (onLeft) {
+            const maxX = Math.max(colMargin, targetMetrics.left - pw - 12);
+            px = colMargin + (slotIdx % 2) * Math.min(availLeftW * 0.38, maxX - colMargin);
+          } else {
+            const startX = targetMetrics.left + targetMetrics.width + 12;
+            const maxX = Math.max(startX, bw - pw - colMargin);
+            px = startX + (slotIdx % 2) * Math.min(availRightW * 0.36, maxX - startX);
+          }
+
+          const usableH = Math.max(120, bh - ph - 36);
+          const stepY = slotsInCol > 1 ? usableH / (slotsInCol - 1) : 0;
+          py = 18 + slotIdx * stepY;
+        } else {
+          // Celular em pé: distribui em bandeja na parte inferior do molde
+          const cols = 4;
+          const col = idx % cols;
+          const row = Math.floor(idx / cols);
+          const trayTop = targetMetrics.top + targetMetrics.height + 16;
+          const trayH = Math.max(110, bh - trayTop - 16);
+          const rows = Math.ceil(shuffled.length / cols);
+          const cellW = (bw - 24) / cols;
+          const cellH = trayH / Math.max(1, rows);
+
+          px = 12 + col * cellW + (cellW - pw) / 2;
+          py = trayTop + row * cellH + (cellH - ph) / 2;
+        }
+
+        // Mantém 100% visível dentro da bancada
+        px = Math.max(8, Math.min(bw - pw - 8, px));
+        py = Math.max(8, Math.min(bh - ph - 8, py));
+
+        const rot = ((idx % 2 === 0 ? -1 : 1) * (4 + (idx * 3) % 10));
+
+        const el = document.createElement('div');
+        el.className = 'drag-piece';
+        el.dataset.pieceId = piece.id;
+        el.style.width = `${pw}px`;
+        el.style.height = `${ph}px`;
+        el.style.left = `${px}px`;
+        el.style.top = `${py}px`;
+        el.style.setProperty('--rot', `${rot}deg`);
+        el.style.transform = `rotate(${rot}deg)`;
+
+        const img = document.createElement('img');
+        img.src = piece.file;
+        img.alt = piece.name;
+        img.draggable = false;
+        el.appendChild(img);
+
+        attachDragHandlers(el, piece, pw, ph, rot);
+        dragLayer.appendChild(el);
+      });
+    }
+
+    function attachDragHandlers(el, piece, pw, ph, baseRot) {
+      let dragging = false;
+      let pointerId = null;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      // Posição alvo exata na bancada (em pixels)
+      function getTargetBox() {
+        return {
+          x: targetMetrics.left + (piece.x / 100) * targetMetrics.width,
+          y: targetMetrics.top + (piece.y / 100) * targetMetrics.height,
+          w: (piece.w / 100) * targetMetrics.width,
+          h: (piece.h / 100) * targetMetrics.height
+        };
+      }
+
+      el.addEventListener('pointerdown', (e) => {
+        if (placedIds.has(piece.id)) return;
+        e.preventDefault();
+        audio.startIfAllowed();
+        audio.playPickup();
+
+        dragging = true;
+        pointerId = e.pointerId;
+        el.setPointerCapture(pointerId);
+        el.classList.add('dragging');
+        el.classList.remove('hint-glow');
+        el.style.transform = 'rotate(0deg) scale(1.06)';
+
+        const rect = el.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+
+        dragTooltip.textContent = piece.name;
+        dragTooltip.style.left = `${e.clientX}px`;
+        dragTooltip.style.top = `${e.clientY}px`;
+        dragTooltip.classList.add('visible');
+      });
+
+      el.addEventListener('pointermove', (e) => {
+        if (!dragging || e.pointerId !== pointerId) return;
+        e.preventDefault();
+
+        const boardRect = playBoard.getBoundingClientRect();
+        const nx = e.clientX - boardRect.left - offsetX;
+        const ny = e.clientY - boardRect.top - offsetY;
+
+        el.style.left = `${nx}px`;
+        el.style.top = `${ny}px`;
+
+        dragTooltip.style.left = `${e.clientX}px`;
+        dragTooltip.style.top = `${e.clientY}px`;
+
+        // Checa proximidade com o local correto para acender o guia magnético
+        const t = getTargetBox();
+        const pieceCx = nx + pw / 2;
+        const pieceCy = ny + ph / 2;
+        const targetCx = t.x + t.w / 2;
+        const targetCy = t.y + t.h / 2;
+        const dist = Math.hypot(pieceCx - targetCx, pieceCy - targetCy);
+        const snapRadius = Math.max(48, targetMetrics.width * 0.19);
+
+        if (dist < snapRadius * 1.45) {
+          showSnapGuide(piece, dist < snapRadius);
+        } else {
+          hideSnapGuide();
+        }
+      });
+
+      function finishDrag(e) {
+        if (!dragging || e.pointerId !== pointerId) return;
+        dragging = false;
+        el.classList.remove('dragging');
+        dragTooltip.classList.remove('visible');
+        hideSnapGuide();
+
+        const boardRect = playBoard.getBoundingClientRect();
+        let nx = parseFloat(el.style.left);
+        let ny = parseFloat(el.style.top);
+
+        const t = getTargetBox();
+        const pieceCx = nx + pw / 2;
+        const pieceCy = ny + ph / 2;
+        const targetCx = t.x + t.w / 2;
+        const targetCy = t.y + t.h / 2;
+        const dist = Math.hypot(pieceCx - targetCx, pieceCy - targetCy);
+        const snapRadius = Math.max(52, targetMetrics.width * 0.2);
+
+        if (dist <= snapRadius) {
+          // ENCAIXOU!!
+          placedIds.add(piece.id);
+          el.remove();
+          placePieceInTarget(piece);
+          audio.playSnap(placedIds.size);
+          spawnSparklesAt(targetCx, targetCy, 9);
+          updateProgress();
+          checkVictory();
+        } else {
+          // Mantém dentro da bancada suavemente
+          nx = Math.max(6, Math.min(boardRect.width - pw - 6, nx));
+          ny = Math.max(6, Math.min(boardRect.height - ph - 6, ny));
+          el.style.left = `${nx}px`;
+          el.style.top = `${ny}px`;
+          el.style.transform = `rotate(${baseRot}deg) scale(1)`;
+        }
+      }
+
+      el.addEventListener('pointerup', finishDrag);
+      el.addEventListener('pointercancel', finishDrag);
+    }
+
+    function selectDoll(idx) {
+      currentDollIndex = idx;
+      const doll = DOLLS[idx];
+      placedIds = new Set();
+
+      currentDollTitle.textContent = `Montando a ${doll.name}`;
+      currentDollHint.textContent = `Arraste as ${doll.pieces.length} pecinhas até o lugar certo no molde!`;
+
+      targetZone.classList.remove('completed');
+      victoryBanner.classList.remove('visible');
+      hideSnapGuide();
+      placedLayer.innerHTML = '';
+      targetSilhouette.src = doll.silhouette;
+
+      renderSidebar();
+      computeTargetMetrics(doll);
+      scatterPieces(doll);
+      updateProgress();
+    }
+
+    /* =========================================================================
+       5. BOTÕES, DICA, MOBILE MENU E INSTALAÇÃO PWA
+       ========================================================================= */
+    hintBtn.addEventListener('click', () => {
+      audio.startIfAllowed();
+      const doll = DOLLS[currentDollIndex];
+      const nextPiece = doll.pieces.find((p) => !placedIds.has(p.id));
+      if (!nextPiece) return;
+
+      showSnapGuide(nextPiece, false);
+      const dragEl = dragLayer.querySelector(`[data-piece-id="${nextPiece.id}"]`);
+      if (dragEl) {
+        dragEl.classList.remove('hint-glow');
+        void dragEl.offsetWidth;
+        dragEl.classList.add('hint-glow');
+      }
+      setTimeout(hideSnapGuide, 2200);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      audio.startIfAllowed();
+      selectDoll(currentDollIndex);
+    });
+
+    playAgainBtn.addEventListener('click', () => {
+      selectDoll(currentDollIndex);
+    });
+
+    nextDollBtn.addEventListener('click', () => {
+      const nextIdx = (currentDollIndex + 1) % DOLLS.length;
+      selectDoll(nextIdx);
+    });
+
+    musicBtn.addEventListener('click', () => audio.toggle());
+    volSlider.addEventListener('input', (e) => audio.setVolume(Number(e.target.value)));
+
+    function closeMobileMenu() {
+      sidebar.classList.remove('open');
+      sidebarBackdrop.classList.remove('open');
+    }
+
+    mobileMenuBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      sidebarBackdrop.classList.toggle('open');
+    });
+    sidebarBackdrop.addEventListener('click', closeMobileMenu);
+
+    // Recalcula layout se a tela for girada ou redimensionada
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const doll = DOLLS[currentDollIndex];
+        computeTargetMetrics(doll);
+        scatterPieces(doll);
+      }, 150);
+    });
+
+    // Registro do Service Worker + Botão de Instalação PWA
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+
+    let deferredPrompt = null;
+    const installBtn = document.getElementById('installBtn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.classList.add('visible');
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      installBtn.classList.remove('visible');
+    });
+
+    // Inicia automaticamente na primeira boneca (Olívia)
+    selectDoll(0);
+  </script>
+</body>
+</html>

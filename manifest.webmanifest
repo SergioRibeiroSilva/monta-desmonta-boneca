@@ -1,0 +1,27 @@
+{
+  "name": "Ateliê das Bonecas — Monte a Olívia, Larissa e Mônica",
+  "short_name": "Ateliê Bonecas",
+  "description": "Jogo infantil interativo para montar as bonecas artesanais Olívia, Larissa e Mônica arrastando cada pecinha com música alegre e confetes!",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#faf5ee",
+  "theme_color": "#e47b96",
+  "lang": "pt-BR",
+  "categories": ["games", "kids", "entertainment"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
